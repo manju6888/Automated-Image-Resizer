@@ -1,0 +1,109 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: #f1f5f9;
+    min-height: 100vh;
+    padding: 30px 15px;
+}
+
+.container { max-width: 700px; margin: 0 auto; }
+
+h1 { text-align: center; font-size: 2rem; margin-bottom: 5px; }
+.subtitle { text-align: center; color: #94a3b8; margin-bottom: 30px; }
+
+.card {
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+.card h2 { font-size: 1.1rem; margin-bottom: 15px; color: #818cf8; }
+
+label {
+    display: block;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 12px 0 5px;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px 12px;
+    background: #334155;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    color: #f1f5f9;
+    font-size: 0.95rem;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #6366f1;
+}
+
+.dropzone {
+    border: 2px dashed #475569;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    transition: 0.2s;
+}
+
+.dropzone:hover { border-color: #6366f1; background: rgba(99,102,241,0.05); }
+
+.dropzone input[type=file] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: #6366f1;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.2s;
+}
+
+button:hover:not(:disabled) { background: #4f46e5; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    text-align: center;
+}
+
+.compare img {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 8px;
+    background: #334155;
+}
+
+.compare p { font-size: 0.85rem; color: #94a3b8; margin: 6px 0; }
+
+#procInfo {
+    text-align: center;
+    margin: 15px 0;
+    color: #22d3ee;
+    font-weight: 600;
+}
+
+@media (max-width: 500px) {
+    .compare { grid-template-columns: 1fr; }
+}
