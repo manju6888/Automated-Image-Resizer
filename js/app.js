@@ -1,5 +1,7 @@
-// Automatically detect backend URL
-const API_BASE = 'https://automated-image-resizer.onrender.com/api';
+// Live Cloud Backend URL on Render
+const BACKEND_DOMAIN = 'https://automated-image-resizer.onrender.com';
+const API_BASE = `${BACKEND_DOMAIN}/api`;
+
 const fileInput = document.getElementById('fileInput');
 const dropzone = document.getElementById('dropzone');
 const preview = document.getElementById('preview');
@@ -51,7 +53,7 @@ if (btn) {
         if (!selectedFile) return;
 
         btn.disabled = true;
-        btn.textContent = 'Processing...';
+        btn.textContent = 'Processing (Waking up AI Cloud server... please wait 30s)...';
 
         const fd = new FormData();
         fd.append('image', selectedFile);
@@ -70,7 +72,7 @@ if (btn) {
             const res = await fetch(`${API_BASE}/upload`, { method: 'POST', body: fd });
             
             if (!res.ok) {
-                throw new Error(`Server returned HTTP ${res.status}. Make sure backend server is running!`);
+                throw new Error(`Server returned HTTP ${res.status}`);
             }
 
             const data = await res.json();
@@ -82,9 +84,16 @@ if (btn) {
 
             resultCard.style.display = 'block';
             document.getElementById('origResult').src = preview.src;
-            document.getElementById('newResult').src = data.preview_url.startsWith('http') 
+
+            const previewUrl = data.preview_url.startsWith('http') 
                 ? data.preview_url 
-                : `${API_BASE.replace('/api', '')}${data.preview_url}?t=${Date.now()}`;
+                : `${BACKEND_DOMAIN}${data.preview_url}`;
+
+            const downloadUrl = data.download_url.startsWith('http') 
+                ? data.download_url 
+                : `${BACKEND_DOMAIN}${data.download_url}`;
+
+            document.getElementById('newResult').src = `${previewUrl}?t=${Date.now()}`;
 
             document.getElementById('origStats').textContent =
                 `${data.original_dimensions.width} × ${data.original_dimensions.height} | ${data.original_size_mb} MB`;
@@ -95,15 +104,12 @@ if (btn) {
             document.getElementById('procInfo').textContent =
                 `Scale: ${data.scale_applied}x | Mode: ${data.resize_mode} | Time: ${data.processing_time}s`;
 
-            const downloadLink = document.getElementById('downloadLink');
-            downloadLink.href = data.download_url.startsWith('http') 
-                ? data.download_url 
-                : `${API_BASE.replace('/api', '')}${data.download_url}`;
+            document.getElementById('downloadLink').href = downloadUrl;
 
             resultCard.scrollIntoView({ behavior: 'smooth' });
 
         } catch (err) {
-            alert('Backend Error: Python server is not reachable!\n\nPlease run "python backend/app.py" or "start.bat" on your PC, then try again at http://localhost:5000');
+            alert('Cloud Server Message: ' + err.message + '\n\nRender free servers sleep after 15 minutes. Please wait 20 seconds and click "Resize Image" again while it wakes up!');
             console.error(err);
         }
 
