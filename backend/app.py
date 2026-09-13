@@ -95,10 +95,10 @@ def js_files(filename):
 @app.route('/<path:path>')
 def static_files(path):
     return send_from_directory(PROJECT_ROOT, path)
-
 if __name__ == '__main__':
+    import os
+    port = int(os.environ.get("PORT", 5000))
     print("=" * 50)
-    print("  AI Image Resizer Service")
-    print("  Open: http://localhost:5000")
+    print(f"  AI Image Resizer Service running on port {port}")
     print("=" * 50)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port)
